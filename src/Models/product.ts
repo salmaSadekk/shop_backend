@@ -25,23 +25,25 @@ export class Shop {
 
       return result.rows 
     } catch (err) {
-      throw new Error(`Could not get books. Error: ${err}`)
+      throw new Error(`Could not get products. Error: ${err}`)
     }
   }
 
   async show(id: string): Promise<Product> {
     try {
-    const sql = 'SELECT * FROM books WHERE id=($1)'
+    const sql = 'SELECT * FROM  products WHERE id=($1)'
     // @ts-ignore
     const conn = await Client.connect()
+    console.log("val" +id)
 
     const result = await conn.query(sql, [id])
 
     conn.release()
+    //console.log(result.rows[0])
 
     return result.rows[0]
     } catch (err) {
-        throw new Error(`Could not find book ${id}. Error: ${err}`)
+        throw new Error(`Could not find product ${id}. Error: ${err}`)
     }
   }
 

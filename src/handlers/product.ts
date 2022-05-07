@@ -10,8 +10,9 @@ const index = async (_req: Request, res: Response) => {
 }
 
 const show = async (req: Request, res: Response) => {
-   const product = await shop.show(req.body.id)
-   res.json(shop)
+  console.log("handler "+ req.params.id)
+   const product = await shop.show(req.params.id)
+   res.json(product)
 } /*
 
 const create = async (req: Request, res: Response) => {
