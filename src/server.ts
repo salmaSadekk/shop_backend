@@ -23,7 +23,7 @@ app.get('/products', async (req : Request, res : Response)  :Promise<void>=> {
         conn.release()
   
        // return result.rows 
-       res.send("here")
+       res.send(result.rows )
       } catch (err) {
         throw new Error(`Could not get books. Error: ${err}`)
       }

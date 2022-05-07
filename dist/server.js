@@ -64,7 +64,7 @@ app.get('/products', function (req, res) { return __awaiter(void 0, void 0, void
                 result = _a.sent();
                 conn.release();
                 // return result.rows 
-                res.send("here");
+                res.send(result.rows);
                 return [3 /*break*/, 4];
             case 3:
                 err_1 = _a.sent();

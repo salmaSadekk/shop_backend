@@ -45,7 +45,7 @@ export class Shop {
     }
   }
 
-  async create(b: Product): Promise<Product> {
+ /* async create(b: Product): Promise<Product> {
       try {
     const sql = 'INSERT INTO books (title, author, total_pages, summary) VALUES($1, $2, $3, $4) RETURNING *'
     // @ts-ignore
@@ -80,5 +80,5 @@ export class Shop {
       } catch (err) {
           throw new Error(`Could not delete book ${id}. Error: ${err}`)
       }
-  }
+  } */
 }

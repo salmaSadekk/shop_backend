@@ -2,8 +2,8 @@
     "dev": {
       "driver": "pg",
       "host": "127.0.0.1",
-      "database": "mystore",
-      "user": "mystore_user",
+      "database": "shopping",
+      "user": "postgres",
       "password": "password123"
     }
 }
