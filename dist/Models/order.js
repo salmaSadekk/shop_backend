@@ -86,7 +86,7 @@ var Cart = /** @class */ (function () {
                         result = _a.sent();
                         conn.release();
                         //console.log(result.rows[0])
-                        return [2 /*return*/, result.rows[0]];
+                        return [2 /*return*/, result.rows];
                     case 3:
                         err_2 = _a.sent();
                         throw new Error("Could not find orders ".concat(id, ". Error: ").concat(err_2));
@@ -181,6 +181,7 @@ var Cart = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 3, , 4]);
+                        console.log("test delete " + id);
                         sql = 'DELETE FROM orders WHERE id=($1)';
                         return [4 /*yield*/, database_1["default"].connect()];
                     case 1:

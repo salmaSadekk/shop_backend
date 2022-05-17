@@ -70,11 +70,11 @@ var create = function (req, res) { return __awaiter(void 0, void 0, void 0, func
             case 0:
                 _a.trys.push([0, 2, , 3]);
                 order = {
-                    id: 2,
-                    user_id: Number(req.params.user_id),
-                    status: req.params.status
+                    //   id:2 ,
+                    user_id: Number(req.body.user_id),
+                    status: req.body.status
                 };
-                return [4 /*yield*/, cart.create(Number(req.params.user_id), req.params.status)];
+                return [4 /*yield*/, cart.create(Number(req.body.user_id), req.body.status)];
             case 1:
                 newOrder = _a.sent();
                 res.json(newOrder);
@@ -92,7 +92,7 @@ var destroy = function (req, res) { return __awaiter(void 0, void 0, void 0, fun
     var deleted;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, cart["delete"](req.body.id)];
+            case 0: return [4 /*yield*/, cart["delete"](req.params.id)];
             case 1:
                 deleted = _a.sent();
                 res.json(deleted);
@@ -118,8 +118,9 @@ var addProduct = function (_req, res) { return __awaiter(void 0, void 0, void 0,
         switch (_a.label) {
             case 0:
                 orderId = _req.params.id;
-                productId = _req.params.productId;
-                quantity = parseInt(_req.params.quantity);
+                productId = _req.body.productId;
+                quantity = parseInt(_req.body.quantity);
+                console.log("orderId: " + orderId + " productId: " + productId + "uantity: " + quantity);
                 _a.label = 1;
             case 1:
                 _a.trys.push([1, 3, , 4]);
@@ -138,11 +139,11 @@ var addProduct = function (_req, res) { return __awaiter(void 0, void 0, void 0,
     });
 }); };
 var orderRoutes = function (app) {
-    app.get('/orders', index);
-    app.get('/orders/:id', show);
-    app.post('/orders', create); // 
-    app.post('/orders/:id/products', addProduct);
-    app["delete"]('/orders/:id', destroy);
+    app.get('/orders', index); //tested
+    app.get('/orders/:id', show); //tested
+    app.post('/orders', create); //tested
+    app.post('/orders/:id/products', addProduct); //tested
+    app["delete"]('/orders/:id', destroy); //tested but should return smth
     app["delete"]('/orders/:id/products', deleteproduct);
 };
 exports["default"] = orderRoutes;

@@ -17,13 +17,13 @@ const show = async (req: Request, res: Response) => {
 const create = async (req: Request, res: Response) => {
     try {
         const order: Order = {
-             id:2 ,
-             user_id: Number( req.params.user_id ) ,
-             status: req.params.status
+          //   id:2 ,
+             user_id: Number( req.body.user_id ) ,
+             status: req.body.status
             
         }
 
-        const newOrder = await cart.create( Number( req.params.user_id ) ,  req.params.status)
+        const newOrder = await cart.create( Number( req.body.user_id ) ,  req.body.status)
         res.json( newOrder)
     } catch(err) {
         res.status(400)
@@ -32,7 +32,7 @@ const create = async (req: Request, res: Response) => {
 }
 
 const destroy = async (req: Request, res: Response) => {
-    const deleted = await cart.delete(req.body.id)
+    const deleted = await cart.delete(req.params.id)
     res.json(deleted)
 } 
 
@@ -43,9 +43,11 @@ const deleteproduct = async (req: Request, res: Response) => {
 
 const addProduct = async (_req: Request, res: Response) => {
     const orderId: string = _req.params.id
-    const productId: string = _req.params.productId
-    const quantity: number = parseInt(_req.params.quantity)
+    const productId: string = _req.body.productId
+    const quantity: number = parseInt(_req.body.quantity)
   
+
+    console.log( "orderId: " + orderId + " productId: " +  productId + "uantity: " + quantity)
     try {
       const addedProduct = await cart.addProduct(quantity, Number(orderId),Number(productId) )
       res.json(addedProduct)
@@ -56,11 +58,11 @@ const addProduct = async (_req: Request, res: Response) => {
   } 
 
 const orderRoutes = (app: express.Application) => {
-    app.get('/orders', index)
-    app.get('/orders/:id', show)
-    app.post('/orders', create) // 
-    app.post('/orders/:id/products',  addProduct)
-    app.delete('/orders/:id' , destroy)
+    app.get('/orders', index) //tested
+    app.get('/orders/:id', show) //tested
+    app.post('/orders', create) //tested
+    app.post('/orders/:id/products',  addProduct)//tested
+    app.delete('/orders/:id' , destroy) //tested but should return smth
     app.delete('/orders/:id/products' , deleteproduct)
 
 

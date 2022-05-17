@@ -2,7 +2,7 @@
 import Client from '../database'
 
 export type Order = {
-     id: number;
+     id?: number;
      user_id: number;
      status: string;
  
@@ -27,7 +27,7 @@ export class Cart {
     }
   } 
 
-  async show(id: string): Promise<Order> {
+  async show(id: string): Promise<Order[]> {
     try {
     const sql = 'SELECT * FROM  orders WHERE user_id=($1)'
     // @ts-ignore
@@ -39,7 +39,7 @@ export class Cart {
     conn.release()
     //console.log(result.rows[0])
 
-    return result.rows[0]
+    return result.rows 
     } catch (err) {
         throw new Error(`Could not find orders ${id}. Error: ${err}`)
     }
@@ -110,6 +110,7 @@ export class Cart {
   
   async delete(id: string): Promise<Order> {
       try {
+        console.log("test delete " + id )
     const sql = 'DELETE FROM orders WHERE id=($1)'
     // @ts-ignore
     const conn = await Client.connect()
@@ -117,6 +118,7 @@ export class Cart {
     const result = await conn.query(sql, [id])
 
     const product = result.rows[0]
+    
 
     conn.release()
 
