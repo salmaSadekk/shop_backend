@@ -1,8 +1,10 @@
 import express, { Request, Response } from 'express'
 //import { Article, ArticleStore } from '../models/article'
 import { Product , Shop} from '../Models/product' ;
+import jwt from 'jsonwebtoken';
 
 const shop = new Shop() ;
+const token_secret = process.env.TOKEN_SECRET as string ;
 
 const index = async (_req: Request, res: Response) => {
   const products = await shop.index()
@@ -13,22 +15,44 @@ const show = async (req: Request, res: Response) => {
   console.log("handler "+ req.params.id)
    const product = await shop.show(req.params.id)
    res.json(product)
-} /*
+} 
 
 const create = async (req: Request, res: Response) => {
+
+
+
     try {
         const product: Product = {
-            title: req.body.title,
-            content: req.body.content,
+          name: req.body.name,
+     price: req.body.price
         }
 
-        const newArticle = await store.create(article)
-        res.json(newArticle)
+        try {
+
+         // console.log(req.headers.authorization   as string )
+          const authorizationHeader= req.headers.authorization   as string 
+          const token =  authorizationHeader.split(' ')[1]
+
+        //  console.log(token as string )
+          jwt.verify(token, token_secret)
+        
+      } catch(err) {
+          res.status(401)
+          res.json(err)
+          return
+      }
+
+
+console.log(product.name  )
+console.log(product.price )
+
+        const newProduct= await shop.create(product)
+        res.json(newProduct)
     } catch(err) {
         res.status(400)
         res.json(err)
     }
-}
+} /*
 
 const destroy = async (req: Request, res: Response) => {
     const deleted = await store.delete(req.body.id)
@@ -38,7 +62,7 @@ const destroy = async (req: Request, res: Response) => {
 const ProductRoutes = (app: express.Application) => {
   app.get('/products', index)
   app.get('/products/:id', show)
-  //app.post('/articles', create)
+  app.post('/products', create)
   //app.delete('/articles', destroy)
 }
 

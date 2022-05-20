@@ -76,11 +76,10 @@ var Cart = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 3, , 4]);
-                        sql = 'SELECT * FROM  orders WHERE user_id=($1)';
+                        sql = 'SELECT orders.id , orders.status , orders_products.quantity , products.name   FROM  orders join orders_products  ON orders.id =  orders_products.order_id  join products on products.id =orders_products.product_id WHERE orders_products.user_id =($1)';
                         return [4 /*yield*/, database_1["default"].connect()];
                     case 1:
                         conn = _a.sent();
-                        console.log("val" + id);
                         return [4 /*yield*/, conn.query(sql, [id])];
                     case 2:
                         result = _a.sent();
@@ -121,7 +120,7 @@ var Cart = /** @class */ (function () {
             });
         });
     };
-    Cart.prototype.addProduct = function (quantity, orderId, productId) {
+    Cart.prototype.addProduct = function (quantity, orderId, productId, user_id) {
         return __awaiter(this, void 0, void 0, function () {
             var sql, conn, result, added_product, err_4;
             return __generator(this, function (_a) {
@@ -129,12 +128,12 @@ var Cart = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 3, , 4]);
                         console.log(" params quantity: ".concat(quantity, " , order: ").concat(orderId, " , product: ").concat(productId));
-                        sql = 'INSERT INTO orders_products (quantity, product_id,order_id) VALUES($1, $2, $3) RETURNING *';
+                        sql = 'INSERT INTO orders_products (quantity, product_id,order_id , user_id) VALUES($1, $2, $3 , $4) RETURNING *';
                         return [4 /*yield*/, database_1["default"].connect()];
                     case 1:
                         conn = _a.sent();
                         return [4 /*yield*/, conn
-                                .query(sql, [quantity, productId, orderId])];
+                                .query(sql, [quantity, productId, orderId, user_id])];
                     case 2:
                         result = _a.sent();
                         added_product = result.rows[0];

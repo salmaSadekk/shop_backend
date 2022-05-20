@@ -4,7 +4,7 @@
 import Client from '../database'
 
 export type Product= {
-     id: number;
+     id ?: number;
      name: string;
      price: number;
  
@@ -47,40 +47,23 @@ export class Shop {
     }
   }
 
- /* async create(b: Product): Promise<Product> {
-      try {
-    const sql = 'INSERT INTO books (title, author, total_pages, summary) VALUES($1, $2, $3, $4) RETURNING *'
-    // @ts-ignore
-    const conn = await Client.connect()
+  async create( pro : Product): Promise<Product> {
+    try {
+  const sql = 'INSERT INTO products (name, price) VALUES($1, $2) RETURNING *'
+  // @ts-ignore
+  const conn = await Client.connect()
 
-    const result = await conn
-        .query(sql, [b.name, b.price])
+  const result = await conn
+      .query(sql, [pro.name, pro.price])
 
-    const product = result.rows[0]
+  const product = result.rows[0]
 
-    conn.release()
+  conn.release()
 
-    return product
-      } catch (err) {
-          throw new Error(`Could not add new book. Error: ${err}`)
-      }
-  }
+  return product
+    } catch (err) {
+        throw new Error(`Could not add new product. Error: ${err}`)
+    }
+} 
 
-  async delete(id: string): Promise<Product> {
-      try {
-    const sql = 'DELETE FROM books WHERE id=($1)'
-    // @ts-ignore
-    const conn = await Client.connect()
-
-    const result = await conn.query(sql, [id])
-
-    const product = result.rows[0]
-
-    conn.release()
-
-    return product
-      } catch (err) {
-          throw new Error(`Could not delete book ${id}. Error: ${err}`)
-      }
-  } */
 }

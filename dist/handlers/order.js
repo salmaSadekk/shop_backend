@@ -35,10 +35,15 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 exports.__esModule = true;
 //import { Article, ArticleStore } from '../models/article'
 var order_1 = require("../Models/order");
+var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 var cart = new order_1.Cart();
+var token_secret = process.env.TOKEN_SECRET;
 var index = function (_req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var products;
     return __generator(this, function (_a) {
@@ -64,27 +69,39 @@ var show = function (req, res) { return __awaiter(void 0, void 0, void 0, functi
     });
 }); };
 var create = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var order, newOrder, err_1;
+    var authorizationHeader, token, order, newOrder, err_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                _a.trys.push([0, 2, , 3]);
+                try {
+                    authorizationHeader = req.headers.authorization;
+                    token = authorizationHeader.split(' ')[1];
+                    jsonwebtoken_1["default"].verify(token, token_secret);
+                }
+                catch (err) {
+                    res.status(401);
+                    res.json(err);
+                    return [2 /*return*/];
+                }
+                _a.label = 1;
+            case 1:
+                _a.trys.push([1, 3, , 4]);
                 order = {
                     //   id:2 ,
                     user_id: Number(req.body.user_id),
                     status: req.body.status
                 };
                 return [4 /*yield*/, cart.create(Number(req.body.user_id), req.body.status)];
-            case 1:
+            case 2:
                 newOrder = _a.sent();
                 res.json(newOrder);
-                return [3 /*break*/, 3];
-            case 2:
+                return [3 /*break*/, 4];
+            case 3:
                 err_1 = _a.sent();
                 res.status(400);
                 res.json(err_1);
-                return [3 /*break*/, 3];
-            case 3: return [2 /*return*/];
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
         }
     });
 }); };
@@ -112,19 +129,32 @@ var deleteproduct = function (req, res) { return __awaiter(void 0, void 0, void 
         }
     });
 }); };
-var addProduct = function (_req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var orderId, productId, quantity, addedProduct, err_2;
+var addProduct = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var orderId, product_id, quantity, user_id, authorizationHeader, token, addedProduct, err_2;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                orderId = _req.params.id;
-                productId = _req.body.productId;
-                quantity = parseInt(_req.body.quantity);
-                console.log("orderId: " + orderId + " productId: " + productId + "uantity: " + quantity);
+                orderId = req.params.id;
+                product_id = req.body.product_id;
+                quantity = parseInt(req.body.quantity);
+                user_id = req.body.user_id;
+                try {
+                    authorizationHeader = req.headers.authorization;
+                    token = authorizationHeader.split(' ')[1];
+                    console.log(token);
+                    //  console.log(token as string )
+                    jsonwebtoken_1["default"].verify(token, token_secret);
+                }
+                catch (err) {
+                    res.status(401);
+                    res.json(err);
+                    return [2 /*return*/];
+                }
+                console.log("orderId: " + orderId + " productId: " + product_id + "uantity: " + quantity);
                 _a.label = 1;
             case 1:
                 _a.trys.push([1, 3, , 4]);
-                return [4 /*yield*/, cart.addProduct(quantity, Number(orderId), Number(productId))];
+                return [4 /*yield*/, cart.addProduct(quantity, Number(orderId), Number(product_id), Number(user_id))];
             case 2:
                 addedProduct = _a.sent();
                 res.json(addedProduct);

@@ -7,7 +7,7 @@ import jwt from 'jsonwebtoken';
 
 
 const user_c= new UserClass() ;
-const tokenn = "testToken" ;
+const token_secret = process.env.TOKEN_SECRET as string ;
 
 
 const create = async (req: Request, res: Response) => {
@@ -21,7 +21,7 @@ const create = async (req: Request, res: Response) => {
 
         
         const newUser = await user_c.create(user)
-        var token = jwt.sign({ user: newUser }, tokenn);
+        var token = jwt.sign({ user: newUser }, token_secret);
         res.json(token) //returns the token to be used by client side
     } catch(err) {
         res.status(400)
@@ -37,7 +37,7 @@ const authenticate = async (req: Request, res: Response) => {
     }
     try {
         const u = await user_c.authenticate(user.email, user.password)
-        var token = jwt.sign({ user: u },tokenn);
+        var token = jwt.sign({ user: u },token_secret);
         res.json(token)
     } catch(error) {
         res.status(401)

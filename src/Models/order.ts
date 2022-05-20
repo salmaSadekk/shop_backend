@@ -29,17 +29,25 @@ export class Cart {
 
   async show(id: string): Promise<Order[]> {
     try {
-    const sql = 'SELECT * FROM  orders WHERE user_id=($1)'
+    //const sql = 'SELECT * FROM  orders WHERE user_id=($1)'
+    //I need order status + products in order 
+
+    //we want order status and items  made bhy a certain user 
+    //orders and their ids stored in orders -- products and their ids stored
+
+   const sql = 'SELECT orders.id , orders.status , orders_products.quantity , products.name   FROM  orders join orders_products  ON orders.id =  orders_products.order_id  join products on products.id =orders_products.product_id WHERE orders_products.user_id =($1)'
     // @ts-ignore
     const conn = await Client.connect()
-    console.log("val" +id)
 
     const result = await conn.query(sql, [id])
 
     conn.release()
     //console.log(result.rows[0])
 
+
     return result.rows 
+
+    
     } catch (err) {
         throw new Error(`Could not find orders ${id}. Error: ${err}`)
     }
@@ -64,16 +72,16 @@ export class Cart {
       }
   } 
 
-  async addProduct (quantity : number , orderId : number , productId: number) : Promise<Order>{
+  async addProduct (quantity : number , orderId : number , productId: number , user_id : number ) : Promise<Order>{
     try {
 
       console.log( ` params quantity: ${quantity} , order: ${orderId} , product: ${productId}`  )
-        const sql = 'INSERT INTO orders_products (quantity, product_id,order_id) VALUES($1, $2, $3) RETURNING *'
+        const sql = 'INSERT INTO orders_products (quantity, product_id,order_id , user_id) VALUES($1, $2, $3 , $4) RETURNING *'
         // @ts-ignore
         const conn = await Client.connect()
     
         const result = await conn
-            .query(sql, [quantity, productId , orderId ])
+            .query(sql, [quantity, productId , orderId, user_id ])
     
         const added_product = result.rows[0]
     

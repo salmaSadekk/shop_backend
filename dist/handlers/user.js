@@ -43,7 +43,7 @@ exports.__esModule = true;
 var user_1 = require("../Models/user");
 var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 var user_c = new user_1.UserClass();
-var tokenn = "testToken";
+var token_secret = process.env.TOKEN_SECRET;
 var create = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var user, newUser, token, err_1;
     return __generator(this, function (_a) {
@@ -61,7 +61,7 @@ var create = function (req, res) { return __awaiter(void 0, void 0, void 0, func
                 return [4 /*yield*/, user_c.create(user)];
             case 2:
                 newUser = _a.sent();
-                token = jsonwebtoken_1["default"].sign({ user: newUser }, tokenn);
+                token = jsonwebtoken_1["default"].sign({ user: newUser }, token_secret);
                 res.json(token); //returns the token to be used by client side
                 return [3 /*break*/, 4];
             case 3:
@@ -88,7 +88,7 @@ var authenticate = function (req, res) { return __awaiter(void 0, void 0, void 0
                 return [4 /*yield*/, user_c.authenticate(user.email, user.password)];
             case 2:
                 u = _a.sent();
-                token = jsonwebtoken_1["default"].sign({ user: u }, tokenn);
+                token = jsonwebtoken_1["default"].sign({ user: u }, token_secret);
                 res.json(token);
                 return [3 /*break*/, 4];
             case 3:
