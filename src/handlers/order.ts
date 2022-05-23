@@ -12,8 +12,8 @@ const index = async (_req: Request, res: Response) => {
 }
 
 const show = async (req: Request, res: Response) => {
-   const product = await cart.show(req.params.id)
-   res.json(product)
+  const product = await cart.show(req.params.id)
+  res.json(product)
 } 
 
 const create = async (req: Request, res: Response) => {
@@ -56,7 +56,7 @@ const destroy = async (req: Request, res: Response) => {
 } 
 
 const deleteproduct = async (req: Request, res: Response) => {
-    const deleted = await cart.deleteProduct(req.body.product_id ,req.body.order_id )
+    const deleted = await cart.deleteProduct(req.body.product_id  , Number (req.params.id ) )
     res.json(deleted)
 } 
 

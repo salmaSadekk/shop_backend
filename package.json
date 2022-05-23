@@ -31,7 +31,6 @@
     "@types/pg": "^7.14.7",
     "add": "^2.0.6",
     "eslint": "^8.15.0",
-    "eslint-config-prettier": "^8.5.0",
     "jasmine": "^3.99.0",
     "jasmine-spec-reporter": "^6.0.0",
     "jasmine-ts": "^0.3.0",

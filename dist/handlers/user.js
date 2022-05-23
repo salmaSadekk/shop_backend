@@ -100,8 +100,34 @@ var authenticate = function (req, res) { return __awaiter(void 0, void 0, void 0
         }
     });
 }); };
+var show = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var authorizationHeader, token, product;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                try {
+                    authorizationHeader = req.headers.authorization;
+                    token = authorizationHeader.split(' ')[1];
+                    console.log(token);
+                    //  console.log(token as string )
+                    jsonwebtoken_1["default"].verify(token, token_secret);
+                }
+                catch (err) {
+                    res.status(401);
+                    res.json(err);
+                    return [2 /*return*/];
+                }
+                return [4 /*yield*/, user_c.show(req.params.id)];
+            case 1:
+                product = _a.sent();
+                res.json(product);
+                return [2 /*return*/];
+        }
+    });
+}); };
 var UserRoutes = function (app) {
     app.post('/users', create); //tested
     app.post('/users/auth', authenticate); //tested
+    app.get('/users/:id', authenticate); //tested
 };
 exports["default"] = UserRoutes;

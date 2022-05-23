@@ -91,8 +91,6 @@ var create = function (req, res) { return __awaiter(void 0, void 0, void 0, func
                     res.json(err);
                     return [2 /*return*/];
                 }
-                console.log(product.name);
-                console.log(product.price);
                 return [4 /*yield*/, shop.create(product)];
             case 1:
                 newProduct = _a.sent();

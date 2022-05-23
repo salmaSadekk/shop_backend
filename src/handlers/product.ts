@@ -43,9 +43,6 @@ const create = async (req: Request, res: Response) => {
       }
 
 
-console.log(product.name  )
-console.log(product.price )
-
         const newProduct= await shop.create(product)
         res.json(newProduct)
     } catch(err) {

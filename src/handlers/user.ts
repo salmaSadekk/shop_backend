@@ -44,6 +44,27 @@ const authenticate = async (req: Request, res: Response) => {
         res.json({ error })
     }
   }
+  const show = async (req: Request, res: Response) => {
+    try {
+
+        // console.log(req.headers.authorization   as string )
+         const authorizationHeader= req.headers.authorization   as string 
+         const token =  authorizationHeader.split(' ')[1]
+  console.log(token)
+       //  console.log(token as string )
+         jwt.verify(token, token_secret)
+       
+     } catch(err) {
+         res.status(401)
+         res.json(err)
+         return
+     }  
+    const product = await user_c.show(req.params.id)
+    res.json(product)
+ } 
+  
+
+  
 
   
  
@@ -56,6 +77,8 @@ const UserRoutes = (app: express.Application) => {
 
     app.post('/users', create) //tested
     app.post('/users/auth', authenticate) //tested
+    app.get('/users/:id', authenticate) //tested
+
 
    
 

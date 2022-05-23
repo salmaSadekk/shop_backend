@@ -29,13 +29,9 @@ export class Cart {
 
   async show(id: string): Promise<Order[]> {
     try {
-    //const sql = 'SELECT * FROM  orders WHERE user_id=($1)'
-    //I need order status + products in order 
+    
 
-    //we want order status and items  made bhy a certain user 
-    //orders and their ids stored in orders -- products and their ids stored
-
-   const sql = 'SELECT orders.id , orders.status , orders_products.quantity , products.name   FROM  orders join orders_products  ON orders.id =  orders_products.order_id  join products on products.id =orders_products.product_id WHERE orders_products.user_id =($1)'
+   const sql = 'SELECT orders.id , orders.status , orders_products.quantity , products.name   FROM  orders join orders_products  ON orders.id =  orders_products.order_id  join products on products.id =orders_products.product_id WHERE orders_products.user_id =($1)   '
     // @ts-ignore
     const conn = await Client.connect()
 
