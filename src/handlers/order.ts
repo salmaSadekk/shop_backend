@@ -28,7 +28,7 @@ const show = async (req: Request, res: Response) => {
 }
 
 
-  const product = await cart.show( req.body.user_id ,  Number (req.params.id))
+  const product = await cart.show( Number (req.params.id))
   res.json(product)
 } 
 
@@ -114,7 +114,7 @@ const deleteproduct = async (req: Request, res: Response) => {
 
   }
   catch (err){
-    console.log(err)
+   // console.log(err)
     res.json(err)
     return
   }
@@ -132,7 +132,7 @@ const addProduct = async (req: Request, res: Response) => {
       // console.log(req.headers.authorization   as string )
        const authorizationHeader= req.headers.authorization   as string 
        const token =  authorizationHeader.split(' ')[1]
-console.log(token)
+//console.log(token)
      //  console.log(token as string )
        jwt.verify(token, token_secret)
      
@@ -143,7 +143,7 @@ console.log(token)
    }
   
 
-    console.log( "orderId: " + orderId + " productId: " +  product_id + "uantity: " + quantity)
+   // console.log( "orderId: " + orderId + " productId: " +  product_id + "uantity: " + quantity)
     try {
       const addedProduct = await cart.addProduct(quantity, Number(orderId),Number(product_id) , Number(user_id) )
       res.json(addedProduct)

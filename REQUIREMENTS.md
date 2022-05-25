@@ -15,7 +15,7 @@
 #### Orders
 
 - Index ->[GET] '/orders'
-- Show -> [token required][get]'/orders/:id' --> body [args : user_id ] --> shows current order using order id in params and user id in body
+- Show -> [token required][get]'/orders/:id' --> shows current order by user using user id in params
 - Create-> [token required][post] '/orders' --> body [args : user_id , status]
 - addProduct-> [token required][post] '/orders/:id/products' -> body [args: product_id , quantity ,user_id ]
 - Destroy -> [DELETE] '/orders/:id' -> removes a certain order by it's id

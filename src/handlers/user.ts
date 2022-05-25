@@ -50,7 +50,7 @@ const authenticate = async (req: Request, res: Response) => {
         // console.log(req.headers.authorization   as string )
          const authorizationHeader= req.headers.authorization   as string 
          const token =  authorizationHeader.split(' ')[1]
-  console.log(token)
+ // console.log(token)
        //  console.log(token as string )
          jwt.verify(token, token_secret)
        

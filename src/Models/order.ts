@@ -27,15 +27,15 @@ export class Cart {
     }
   } 
 
-  async show(user_id :number , id: number ): Promise<Order[]> {
+  async show(user_id :number  ): Promise<Order[]> {
     try {
     
 
-   const sql = 'SELECT orders.id , orders.status , orders_products.quantity , products.name   FROM  orders join orders_products  ON orders.id =  orders_products.order_id  join products on products.id =orders_products.product_id WHERE orders_products.user_id =($1)  AND orders.id= ($2)  '
+   const sql = 'SELECT orders.id , orders.status , orders_products.quantity , orders_products.user_id , products.name   FROM  orders join orders_products  ON orders.id =  orders_products.order_id  join products on products.id =orders_products.product_id WHERE orders_products.user_id =($1)  '
     // @ts-ignore
     const conn = await Client.connect()
 
-    const result = await conn.query(sql, [user_id , id])
+    const result = await conn.query(sql, [user_id ])
 
     conn.release()
     //console.log(result.rows[0])
@@ -45,7 +45,7 @@ export class Cart {
 
     
     } catch (err) {
-        throw new Error(`Could not find orders ${id}. Error: ${err}`)
+        throw new Error(`Could not find orders ${user_id}. Error: ${err}`)
     }
   }
 
@@ -71,13 +71,13 @@ export class Cart {
   async addProduct (quantity : number , orderId : number , productId: number , user_id : number ) : Promise<Order>{
     try {
 
-      console.log( ` params quantity: ${quantity} , order: ${orderId} , product: ${productId}`  )
-        const sql = 'INSERT INTO orders_products (quantity, product_id,order_id , user_id) VALUES($1, $2, $3 , $4) RETURNING *'
+     // console.log( ` params quantity: ${quantity} , order: ${orderId} , product: ${productId}`  )
+        const sql = 'INSERT INTO orders_products (quantity, order_id , product_id , user_id) VALUES($1, $2, $3 , $4) RETURNING *'
         // @ts-ignore
         const conn = await Client.connect()
     
         const result = await conn
-            .query(sql, [quantity, productId , orderId, user_id ])
+            .query(sql, [quantity,  orderId, productId , user_id ])
     
         const added_product = result.rows[0]
     
@@ -91,7 +91,7 @@ export class Cart {
   }
 
 
-  async deleteProduct (productId: number , orderId : number ) : Promise<String>{
+  async deleteProduct (productId: number , orderId : number ) : Promise<String[]>{
     try {
         const sql = 'DELETE FROM orders_products WHERE product_id=($1) AND order_id = ($2)'
         
@@ -101,11 +101,12 @@ export class Cart {
         const result = await conn
             .query(sql, [productId , orderId])
     
-        const added_product = result.rows[0]
+        //const added_product = result.rows[0]
     
         conn.release()
-    
-        return added_product
+  
+
+        return result.rows
           } catch (err) {
               throw new Error(`Could not remove product. Error: ${err}`)
           }
@@ -114,7 +115,7 @@ export class Cart {
   
   async delete(id: string): Promise<Order> {
       try {
-        console.log("test delete " + id )
+      //  console.log("test delete " + id )
     const sql = 'DELETE FROM orders WHERE id=($1)'
     // @ts-ignore
     const conn = await Client.connect()

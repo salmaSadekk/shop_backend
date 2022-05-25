@@ -83,3 +83,5 @@ export class UserClass {
 
 
 }
+
+export default UserClass ;

@@ -34,7 +34,7 @@ export class Shop {
     const sql = 'SELECT * FROM  products WHERE id=($1)'
     // @ts-ignore
     const conn = await Client.connect()
-    console.log("val" +id)
+    //console.log("val" +id)
 
     const result = await conn.query(sql, [id])
 
@@ -67,3 +67,5 @@ export class Shop {
 } 
 
 }
+
+export default Shop ;

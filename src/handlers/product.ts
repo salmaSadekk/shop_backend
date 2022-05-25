@@ -7,12 +7,13 @@ const shop = new Shop() ;
 const token_secret = process.env.TOKEN_SECRET as string ;
 
 const index = async (_req: Request, res: Response) => {
+ // console.log( process.env.ENV   as string)
   const products = await shop.index()
   res.json(products)
 }
 
 const show = async (req: Request, res: Response) => {
-  console.log("handler "+ req.params.id)
+//  console.log("handler "+ req.params.id)
    const product = await shop.show(req.params.id)
    res.json(product)
 } 
