@@ -14,14 +14,12 @@
 
 #### Orders
 
-- Current Order by user (args: user id)[token required] -> [GET] '/orders/:id'
-
 - Index ->[GET] '/orders'
-- Show -> [GET]'/orders/:id'
+- Show -> [token required][get]'/orders/:id' --> body [args : user_id ] --> shows current order using order id in params and user id in body
 - Create-> [token required][post] '/orders' --> body [args : user_id , status]
 - addProduct-> [token required][post] '/orders/:id/products' -> body [args: product_id , quantity ,user_id ]
 - Destroy -> [DELETE] '/orders/:id' -> removes a certain order by it's id
-- Delete Products -> [DELETE] '/orders/:id/products' -> removes a product from a certain order with id -> body contains [args: product_id ]
+- Delete Products -> [DELETE] '/orders/:id/products' -> removes a product from a certain order with id -> body [args: product_id ]
 
 ## Data Shapes
 

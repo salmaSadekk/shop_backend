@@ -69,18 +69,18 @@ var Cart = /** @class */ (function () {
             });
         });
     };
-    Cart.prototype.show = function (id) {
+    Cart.prototype.show = function (user_id, id) {
         return __awaiter(this, void 0, void 0, function () {
             var sql, conn, result, err_2;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 3, , 4]);
-                        sql = 'SELECT orders.id , orders.status , orders_products.quantity , products.name   FROM  orders join orders_products  ON orders.id =  orders_products.order_id  join products on products.id =orders_products.product_id WHERE orders_products.user_id =($1)';
+                        sql = 'SELECT orders.id , orders.status , orders_products.quantity , products.name   FROM  orders join orders_products  ON orders.id =  orders_products.order_id  join products on products.id =orders_products.product_id WHERE orders_products.user_id =($1)  AND orders.id= ($2)  ';
                         return [4 /*yield*/, database_1["default"].connect()];
                     case 1:
                         conn = _a.sent();
-                        return [4 /*yield*/, conn.query(sql, [id])];
+                        return [4 /*yield*/, conn.query(sql, [user_id, id])];
                     case 2:
                         result = _a.sent();
                         conn.release();
@@ -154,7 +154,7 @@ var Cart = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 3, , 4]);
-                        sql = 'DELETE FROM products_orders WHERE product_id=($1) AND order_id = ($2)';
+                        sql = 'DELETE FROM orders_products WHERE product_id=($1) AND order_id = ($2)';
                         return [4 /*yield*/, database_1["default"].connect()];
                     case 1:
                         conn = _a.sent();
@@ -202,3 +202,4 @@ var Cart = /** @class */ (function () {
     return Cart;
 }());
 exports.Cart = Cart;
+exports["default"] = Cart;

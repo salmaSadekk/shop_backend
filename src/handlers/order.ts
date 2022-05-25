@@ -12,7 +12,23 @@ const index = async (_req: Request, res: Response) => {
 }
 
 const show = async (req: Request, res: Response) => {
-  const product = await cart.show(req.params.id)
+
+  try {
+
+ 
+    const authorizationHeader= req.headers.authorization   as string 
+    const token =  authorizationHeader.split(' ')[1]
+
+    jwt.verify(token, token_secret)
+  
+} catch(err) {
+    res.status(401)
+    res.json(err)
+    return
+}
+
+
+  const product = await cart.show( req.body.user_id ,  Number (req.params.id))
   res.json(product)
 } 
 
@@ -51,13 +67,58 @@ const create = async (req: Request, res: Response) => {
 }
 
 const destroy = async (req: Request, res: Response) => {
+
+  try {
+
+ 
+    const authorizationHeader= req.headers.authorization   as string 
+    const token =  authorizationHeader.split(' ')[1]
+
+    jwt.verify(token, token_secret)
+  
+} catch(err) {
+    res.status(401)
+    res.json(err)
+    return
+}
+  try{
     const deleted = await cart.delete(req.params.id)
     res.json(deleted)
+ }
+ catch (err) {
+  res.json(err)
+    return
+ }
+    
 } 
 
 const deleteproduct = async (req: Request, res: Response) => {
+
+  try {
+
+ 
+    const authorizationHeader= req.headers.authorization   as string 
+    const token =  authorizationHeader.split(' ')[1]
+
+    jwt.verify(token, token_secret)
+  
+} catch(err) {
+    res.status(401)
+    res.json(err)
+    return
+}
+
+  try{
     const deleted = await cart.deleteProduct(req.body.product_id  , Number (req.params.id ) )
     res.json(deleted)
+
+  }
+  catch (err){
+    console.log(err)
+    res.json(err)
+    return
+  }
+ 
 } 
 
 const addProduct = async (req: Request, res: Response) => {

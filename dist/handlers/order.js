@@ -57,10 +57,21 @@ var index = function (_req, res) { return __awaiter(void 0, void 0, void 0, func
     });
 }); };
 var show = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var product;
+    var authorizationHeader, token, product;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, cart.show(req.params.id)];
+            case 0:
+                try {
+                    authorizationHeader = req.headers.authorization;
+                    token = authorizationHeader.split(' ')[1];
+                    jsonwebtoken_1["default"].verify(token, token_secret);
+                }
+                catch (err) {
+                    res.status(401);
+                    res.json(err);
+                    return [2 /*return*/];
+                }
+                return [4 /*yield*/, cart.show(req.body.user_id, Number(req.params.id))];
             case 1:
                 product = _a.sent();
                 res.json(product);
@@ -106,31 +117,70 @@ var create = function (req, res) { return __awaiter(void 0, void 0, void 0, func
     });
 }); };
 var destroy = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var deleted;
+    var authorizationHeader, token, deleted, err_2;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, cart["delete"](req.params.id)];
+            case 0:
+                try {
+                    authorizationHeader = req.headers.authorization;
+                    token = authorizationHeader.split(' ')[1];
+                    jsonwebtoken_1["default"].verify(token, token_secret);
+                }
+                catch (err) {
+                    res.status(401);
+                    res.json(err);
+                    return [2 /*return*/];
+                }
+                _a.label = 1;
             case 1:
+                _a.trys.push([1, 3, , 4]);
+                return [4 /*yield*/, cart["delete"](req.params.id)];
+            case 2:
                 deleted = _a.sent();
                 res.json(deleted);
+                return [3 /*break*/, 4];
+            case 3:
+                err_2 = _a.sent();
+                res.json(err_2);
                 return [2 /*return*/];
+            case 4: return [2 /*return*/];
         }
     });
 }); };
 var deleteproduct = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var deleted;
+    var authorizationHeader, token, deleted, err_3;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, cart.deleteProduct(req.body.product_id, req.body.order_id)];
+            case 0:
+                try {
+                    authorizationHeader = req.headers.authorization;
+                    token = authorizationHeader.split(' ')[1];
+                    jsonwebtoken_1["default"].verify(token, token_secret);
+                }
+                catch (err) {
+                    res.status(401);
+                    res.json(err);
+                    return [2 /*return*/];
+                }
+                _a.label = 1;
             case 1:
+                _a.trys.push([1, 3, , 4]);
+                return [4 /*yield*/, cart.deleteProduct(req.body.product_id, Number(req.params.id))];
+            case 2:
                 deleted = _a.sent();
                 res.json(deleted);
+                return [3 /*break*/, 4];
+            case 3:
+                err_3 = _a.sent();
+                console.log(err_3);
+                res.json(err_3);
                 return [2 /*return*/];
+            case 4: return [2 /*return*/];
         }
     });
 }); };
 var addProduct = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var orderId, product_id, quantity, user_id, authorizationHeader, token, addedProduct, err_2;
+    var orderId, product_id, quantity, user_id, authorizationHeader, token, addedProduct, err_4;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -160,9 +210,9 @@ var addProduct = function (req, res) { return __awaiter(void 0, void 0, void 0, 
                 res.json(addedProduct);
                 return [3 /*break*/, 4];
             case 3:
-                err_2 = _a.sent();
+                err_4 = _a.sent();
                 res.status(400);
-                res.json(err_2);
+                res.json(err_4);
                 return [3 /*break*/, 4];
             case 4: return [2 /*return*/];
         }

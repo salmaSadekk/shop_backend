@@ -1,9 +1,20 @@
 {
     "dev": {
       "driver": "pg",
-      "host": "127.0.0.1",
-      "database": "shopping",
-      "user": "postgres",
-      "password": "password123"
-    }
-}
+      "host": {"ENV" : "POSTGRES_HOST" },
+      "database": {"ENV" : "POSTGRES_DB"},
+      "user": {"ENV" : "POSTGRES_USER"},
+      "password": {"ENV" : "POSTGRES_PASSWORD"} ,
+      "port": {"ENV" : "POSTGRES_PORT"}
+    } ,
+
+    
+      "test": {
+        "driver": "pg",
+        "host": {"ENV" : "POSTGRES_HOST" },
+        "database": {"ENV" : "POSTGRES_DB_test"},
+        "user": {"ENV" : "POSTGRES_USER"},
+        "password": {"ENV" : "POSTGRES_PASSWORD"} ,
+        "port": {"ENV" : "POSTGRES_PORT"}
+      }
+  }

@@ -128,6 +128,6 @@ var show = function (req, res) { return __awaiter(void 0, void 0, void 0, functi
 var UserRoutes = function (app) {
     app.post('/users', create); //tested
     app.post('/users/auth', authenticate); //tested
-    app.get('/users/:id', authenticate); //tested
+    app.get('/users/:id', show); //tested
 };
 exports["default"] = UserRoutes;

@@ -21,7 +21,7 @@ const create = async (req: Request, res: Response) => {
 
         
         const newUser = await user_c.create(user)
-        var token = jwt.sign({ user: newUser }, token_secret);
+        const token = jwt.sign({ user: newUser }, token_secret);
         res.json(token) //returns the token to be used by client side
     } catch(err) {
         res.status(400)
@@ -37,7 +37,7 @@ const authenticate = async (req: Request, res: Response) => {
     }
     try {
         const u = await user_c.authenticate(user.email, user.password)
-        var token = jwt.sign({ user: u },token_secret);
+       const  token = jwt.sign({ user: u },token_secret);
         res.json(token)
     } catch(error) {
         res.status(401)
@@ -77,7 +77,7 @@ const UserRoutes = (app: express.Application) => {
 
     app.post('/users', create) //tested
     app.post('/users/auth', authenticate) //tested
-    app.get('/users/:id', authenticate) //tested
+    app.get('/users/:id', show) //tested
 
 
    

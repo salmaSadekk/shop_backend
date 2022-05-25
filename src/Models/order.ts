@@ -27,15 +27,15 @@ export class Cart {
     }
   } 
 
-  async show(id: string): Promise<Order[]> {
+  async show(user_id :number , id: number ): Promise<Order[]> {
     try {
     
 
-   const sql = 'SELECT orders.id , orders.status , orders_products.quantity , products.name   FROM  orders join orders_products  ON orders.id =  orders_products.order_id  join products on products.id =orders_products.product_id WHERE orders_products.user_id =($1)   '
+   const sql = 'SELECT orders.id , orders.status , orders_products.quantity , products.name   FROM  orders join orders_products  ON orders.id =  orders_products.order_id  join products on products.id =orders_products.product_id WHERE orders_products.user_id =($1)  AND orders.id= ($2)  '
     // @ts-ignore
     const conn = await Client.connect()
 
-    const result = await conn.query(sql, [id])
+    const result = await conn.query(sql, [user_id , id])
 
     conn.release()
     //console.log(result.rows[0])
@@ -93,7 +93,7 @@ export class Cart {
 
   async deleteProduct (productId: number , orderId : number ) : Promise<String>{
     try {
-        const sql = 'DELETE FROM products_orders WHERE product_id=($1) AND order_id = ($2)'
+        const sql = 'DELETE FROM orders_products WHERE product_id=($1) AND order_id = ($2)'
         
         // @ts-ignore
         const conn = await Client.connect()
@@ -132,3 +132,4 @@ export class Cart {
       }
   } 
 }
+export default Cart ;

@@ -6,8 +6,10 @@
   "scripts": {
     "start": "nodemon src/server.ts",
     "watch": "tsc-watch --esModuleInterop src/server.ts --outDir ./dist --onSuccess \"node ./dist/server.js\"",
-    "test": "jasmine-ts",
-    "tsc": "tsc"
+    "test": "set ENV=test && db-migrate up --env test && tsc --outDir ./dist && jasmine ",
+    "dev" :"set ENV=dev && db-migrate up --env dev" ,
+    "tsc": "tsc" ,
+    "linting": "eslint . --ext .ts"
   },
   "author": "Udacity",
   "license": "ISC",
@@ -34,7 +36,7 @@
     "add": "^2.0.6",
     "eslint": "^8.15.0",
     "jasmine": "^3.99.0",
-    "jasmine-spec-reporter": "^6.0.0",
+    "jasmine-spec-reporter": "^7.0.0",
     "jasmine-ts": "^0.3.0",
     "prettier": "^1.19.1",
     "ts-node": "^9.1.1",

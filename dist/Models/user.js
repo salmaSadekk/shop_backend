@@ -42,8 +42,8 @@ exports.__esModule = true;
 exports.UserClass = void 0;
 var database_1 = __importDefault(require("../database"));
 var bcrypt_1 = __importDefault(require("bcrypt"));
-var pepper = 'hahahahahah';
-var saltRounds = '2';
+var pepper = process.env.PEPPER;
+var saltRounds = process.env.SALT_ROUNDS;
 var UserClass = /** @class */ (function () {
     function UserClass() {
     }
