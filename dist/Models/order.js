@@ -51,7 +51,8 @@ class Cart {
     }
     async addProduct(quantity, orderId, productId, user_id) {
         try {
-            // console.log( ` params quantity: ${quantity} , order: ${orderId} , product: ${productId}`  )
+            //  console.log("3adena hena 1")
+            //console.log( ` params quantity: ${quantity} , order: ${orderId} , product: ${productId}`  )
             const sql = 'INSERT INTO orders_products (quantity, order_id , product_id , user_id) VALUES($1, $2, $3 , $4) RETURNING *';
             // @ts-ignore
             const conn = await database_1.default.connect();
@@ -82,7 +83,7 @@ class Cart {
     }
     async delete(id) {
         try {
-            //  console.log("test delete " + id )
+            console.log("test delete " + id);
             const sql = 'DELETE FROM orders WHERE id=($1)';
             // @ts-ignore
             const conn = await database_1.default.connect();

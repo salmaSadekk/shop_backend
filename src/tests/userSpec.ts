@@ -4,6 +4,14 @@ const request = supertest(app);
 import UserClass, {  } from '../Models/user'
 const user_c= new UserClass() ;
 
+/*
+
+ app.get('/users', index) //tested
+
+    app.post('/users/auth', authenticate) //tested
+    app.get('/users/:id', show) //tested
+*/
+
 describe('endpoint test /users', () => {
     it(' endpoint: post /users', async () => {
       const response = await request.post("/users").send({ 
@@ -17,6 +25,16 @@ describe('endpoint test /users', () => {
       expect(response.status).toBe(200);
       
       });
+      it(' endpoint: post /users/auth', async () => {
+        const response = await request.post("/users/auth").send(
+          {
+            "email" : "salma.sadek@gmail.com",
+            "password" : "pass123"
+        }
+        )
+        expect(response.status).toBe(200);
+        
+        });
   
      
 

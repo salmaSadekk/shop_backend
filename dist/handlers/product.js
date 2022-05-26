@@ -10,32 +10,44 @@ const shop = new product_1.Shop();
 const token_secret = process.env.TOKEN_SECRET;
 const index = async (_req, res) => {
     // console.log( process.env.ENV   as string)
-    const products = await shop.index();
-    res.json(products);
+    try {
+        const products = await shop.index();
+        res.json(products);
+    }
+    catch (err) {
+        console.log(err);
+        res.send("couldn't GET products");
+    }
 };
 const show = async (req, res) => {
     //  console.log("handler "+ req.params.id)
-    const product = await shop.show(req.params.id);
-    res.json(product);
+    try {
+        const product = await shop.show(req.params.id);
+        res.json(product);
+    }
+    catch (err) {
+        console.log(err);
+        res.send("couldn't GET product with required id");
+    }
 };
 const create = async (req, res) => {
+    try {
+        // console.log(req.headers.authorization   as string )
+        const authorizationHeader = req.headers.authorization;
+        const token = authorizationHeader.split(' ')[1];
+        //  console.log(token as string )
+        jsonwebtoken_1.default.verify(token, token_secret);
+    }
+    catch (err) {
+        res.status(401);
+        res.json(err);
+        return;
+    }
     try {
         const product = {
             name: req.body.name,
             price: req.body.price
         };
-        try {
-            // console.log(req.headers.authorization   as string )
-            const authorizationHeader = req.headers.authorization;
-            const token = authorizationHeader.split(' ')[1];
-            //  console.log(token as string )
-            jsonwebtoken_1.default.verify(token, token_secret);
-        }
-        catch (err) {
-            res.status(401);
-            res.json(err);
-            return;
-        }
         const newProduct = await shop.create(product);
         res.json(newProduct);
     }

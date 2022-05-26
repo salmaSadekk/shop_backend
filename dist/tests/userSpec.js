@@ -8,11 +8,25 @@ const server_1 = __importDefault(require("../server"));
 const request = (0, supertest_1.default)(server_1.default);
 const user_1 = __importDefault(require("../Models/user"));
 const user_c = new user_1.default();
+/*
+
+ app.get('/users', index) //tested
+
+    app.post('/users/auth', authenticate) //tested
+    app.get('/users/:id', show) //tested
+*/
 describe('endpoint test /users', () => {
     it(' endpoint: post /users', async () => {
         const response = await request.post("/users").send({
             "firstname": "Salma",
             "lastname": "Sadek",
+            "email": "salma.sadek@gmail.com",
+            "password": "pass123"
+        });
+        expect(response.status).toBe(200);
+    });
+    it(' endpoint: post /users/auth', async () => {
+        const response = await request.post("/users/auth").send({
             "email": "salma.sadek@gmail.com",
             "password": "pass123"
         });

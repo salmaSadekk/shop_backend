@@ -60,6 +60,22 @@ export class UserClass {
               throw new Error(`Could not add new user. Error: ${err}`)
           }
       }
+
+      async index(): Promise<User[]> {
+        try {
+          // @ts-ignore
+          const conn = await Client.connect()
+          const sql = 'SELECT firstname , lastname ,email FROM users'
+    
+          const result = await conn.query(sql)
+    
+          conn.release()
+    
+          return result.rows 
+        } catch (err) {
+          throw new Error(`Could not get products. Error: ${err}`)
+        }
+      }
     
       
       async show(id: string): Promise<User[]> {

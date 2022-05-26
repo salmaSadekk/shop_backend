@@ -7,8 +7,17 @@ const cart = new Cart() ;
 const token_secret = process.env.TOKEN_SECRET as string ;
 
 const index = async (_req: Request, res: Response) => {
-  const products = await cart.index()
-  res.json(products)
+
+  try{
+    const products = await cart.index()
+    res.json(products)
+
+  }
+  catch (err) {
+    console.log(err)
+    res.send("couldn't GET orders")
+  }
+ 
 }
 
 const show = async (req: Request, res: Response) => {
@@ -27,9 +36,16 @@ const show = async (req: Request, res: Response) => {
     return
 }
 
-
+try{
   const product = await cart.show( Number (req.params.id))
   res.json(product)
+
+} 
+catch(err) {
+  console.log(err) 
+  res.send("couldn't GET order with requested id")
+}
+ 
 } 
 
 const create = async (req: Request, res: Response) => {
@@ -55,8 +71,6 @@ const create = async (req: Request, res: Response) => {
              status: req.body.status
             
         }
-
-        
 
         const newOrder = await cart.create( Number( req.body.user_id ) ,  req.body.status)
         res.json( newOrder)
@@ -87,6 +101,7 @@ const destroy = async (req: Request, res: Response) => {
  }
  catch (err) {
   res.json(err)
+
     return
  }
     
@@ -132,9 +147,10 @@ const addProduct = async (req: Request, res: Response) => {
       // console.log(req.headers.authorization   as string )
        const authorizationHeader= req.headers.authorization   as string 
        const token =  authorizationHeader.split(' ')[1]
-//console.log(token)
-     //  console.log(token as string )
-       jwt.verify(token, token_secret)
+
+     
+    jwt.verify(token, token_secret)   
+    
      
    } catch(err) {
        res.status(401)
@@ -143,9 +159,10 @@ const addProduct = async (req: Request, res: Response) => {
    }
   
 
-   // console.log( "orderId: " + orderId + " productId: " +  product_id + "uantity: " + quantity)
+   //console.log( "orderId: " + orderId + " productId: " +  product_id + "uantity: " + quantity)
     try {
       const addedProduct = await cart.addProduct(quantity, Number(orderId),Number(product_id) , Number(user_id) )
+    
       res.json(addedProduct)
     } catch(err) {
       res.status(400)

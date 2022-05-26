@@ -9,8 +9,14 @@ const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const cart = new order_1.Cart();
 const token_secret = process.env.TOKEN_SECRET;
 const index = async (_req, res) => {
-    const products = await cart.index();
-    res.json(products);
+    try {
+        const products = await cart.index();
+        res.json(products);
+    }
+    catch (err) {
+        console.log(err);
+        res.send("couldn't GET orders");
+    }
 };
 const show = async (req, res) => {
     try {
@@ -23,8 +29,14 @@ const show = async (req, res) => {
         res.json(err);
         return;
     }
-    const product = await cart.show(Number(req.params.id));
-    res.json(product);
+    try {
+        const product = await cart.show(Number(req.params.id));
+        res.json(product);
+    }
+    catch (err) {
+        console.log(err);
+        res.send("couldn't GET order with requested id");
+    }
 };
 const create = async (req, res) => {
     try {
@@ -101,8 +113,6 @@ const addProduct = async (req, res) => {
         // console.log(req.headers.authorization   as string )
         const authorizationHeader = req.headers.authorization;
         const token = authorizationHeader.split(' ')[1];
-        //console.log(token)
-        //  console.log(token as string )
         jsonwebtoken_1.default.verify(token, token_secret);
     }
     catch (err) {
@@ -110,7 +120,7 @@ const addProduct = async (req, res) => {
         res.json(err);
         return;
     }
-    // console.log( "orderId: " + orderId + " productId: " +  product_id + "uantity: " + quantity)
+    //console.log( "orderId: " + orderId + " productId: " +  product_id + "uantity: " + quantity)
     try {
         const addedProduct = await cart.addProduct(quantity, Number(orderId), Number(product_id), Number(user_id));
         res.json(addedProduct);

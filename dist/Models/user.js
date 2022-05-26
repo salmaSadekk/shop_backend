@@ -38,6 +38,19 @@ class UserClass {
             throw new Error(`Could not add new user. Error: ${err}`);
         }
     }
+    async index() {
+        try {
+            // @ts-ignore
+            const conn = await database_1.default.connect();
+            const sql = 'SELECT firstname , lastname ,email FROM users';
+            const result = await conn.query(sql);
+            conn.release();
+            return result.rows;
+        }
+        catch (err) {
+            throw new Error(`Could not get products. Error: ${err}`);
+        }
+    }
     async show(id) {
         try {
             const sql = 'SELECT *   FROM  users WHERE  id=($1)';
