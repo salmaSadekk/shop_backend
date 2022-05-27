@@ -83,7 +83,7 @@ class Cart {
     }
     async delete(id) {
         try {
-            console.log("test delete " + id);
+            //  console.log("test delete " + id )
             const sql = 'DELETE FROM orders WHERE id=($1)';
             // @ts-ignore
             const conn = await database_1.default.connect();

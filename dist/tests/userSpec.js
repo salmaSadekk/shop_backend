@@ -8,6 +8,7 @@ const server_1 = __importDefault(require("../server"));
 const request = (0, supertest_1.default)(server_1.default);
 const user_1 = __importDefault(require("../Models/user"));
 const user_c = new user_1.default();
+const token = process.env.TEST_TOKEN;
 /*
 
  app.get('/users', index) //tested
@@ -32,6 +33,14 @@ describe('endpoint test /users', () => {
         });
         expect(response.status).toBe(200);
     });
+    it(' endpoint: GET /users', async () => {
+        const response = await request.get('/users').set("Authorization", `Bearer ${token}`);
+        expect(response.status).toBe(200);
+    });
+    it(' endpoint: GET /users/:id', async () => {
+        const response = await request.get('/users/1').set("Authorization", `Bearer ${token}`);
+        expect(response.status).toBe(200);
+    });
 });
 describe('users CRUD operations', () => {
     it('create user ', async () => {
@@ -50,6 +59,10 @@ describe('users CRUD operations', () => {
     it('show user with id ', async () => {
         const result = await user_c.show('1');
         expect(result[0].id).toEqual(1);
+    });
+    it('show all users -> index', async () => {
+        const result = await user_c.index();
+        expect(result[0].id).toBeDefined;
     });
     /*
     

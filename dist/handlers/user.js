@@ -77,8 +77,8 @@ const show = async (req, res) => {
         res.json(err);
         return;
     }
-    const product = await user_c.show(req.params.id);
-    res.json(product);
+    const user = await user_c.show(req.params.id);
+    res.json(user);
 };
 const UserRoutes = (app) => {
     app.get('/users', index); //tested

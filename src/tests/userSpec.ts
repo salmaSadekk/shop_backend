@@ -3,6 +3,7 @@ import app from '../server';
 const request = supertest(app);
 import UserClass, {  } from '../Models/user'
 const user_c= new UserClass() ;
+const token = process.env.TEST_TOKEN as string ;
 
 /*
 
@@ -35,9 +36,23 @@ describe('endpoint test /users', () => {
         expect(response.status).toBe(200);
         
         });
+
+        it(' endpoint: GET /users', async () => {
+          const response = await request.get(
+            '/users'
+          ).set("Authorization", `Bearer ${token}`);
+          expect(response.status).toBe(200);
+          
+          });
   
      
-
+          it(' endpoint: GET /users/:id', async () => {
+            const response = await request.get(
+              '/users/1'
+            ).set("Authorization", `Bearer ${token}`);
+            expect(response.status).toBe(200);
+            
+            });
 
   
      
@@ -74,6 +89,13 @@ describe('endpoint test /users', () => {
     expect(result[0].id).toEqual(1)
 
  
+}); 
+it('show all users -> index', async () => {
+  const result = await user_c.index()
+ 
+  expect(result[0].id).toBeDefined
+
+
 }); 
 
 
